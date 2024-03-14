@@ -9,6 +9,13 @@ body {
     height: 100vh;
   flex-direction: column;
   }
+  .blog-link-text {
+    color: #357a30;
+    font-weight: 700;
+  }
+.blog-link-blue {
+    color: #1578cb;
+}
 .active {
     font-weight: 700;
 }
@@ -107,6 +114,7 @@ background-color: #7c7b7b;
     white-space: pre-wrap;
     background-color: #f4f4f4;
     padding: 1rem;
+    min-height: 80px;
     font-family: consolas;
     font-size: 14px;
     max-width: 800px;
