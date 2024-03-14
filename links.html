@@ -33,6 +33,7 @@
   <button type="button" onclick="generateLink()">Generate</button>
 
 <p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
+  <p>Preview: <div id="linkPreview">Fill in the fields and click "Generate" to see the link.</div></p>
  <button class="copy" onclick="copyToClipboard()">Copy</button>
 </form>
 
@@ -65,9 +66,20 @@ function generateLink() {
 
   var className = replacePolishLetters(`${ctaBoldText} ${productText}`.replace(/\s+/g, '-').toLowerCase());
 
-  var linkHTML = `<p><strong>${ctaBoldText}: <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></strong></p>`;
+  var linkHTML = `<p><strong>${ctaBoldText}:</strong> <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></p>`;
 
   document.getElementById("linkResult").innerText = linkHTML;
+
+  // Create a container for the preview if it doesn't already exist
+  var previewContainer = document.getElementById("linkPreview");
+  previewContainer.innerHTML = ''; // Clear previous preview
+
+  // Create the preview element
+  var previewElement = document.createElement("div");
+  previewElement.innerHTML = linkHTML;
+
+  // Append the preview element to the container
+  previewContainer.appendChild(previewElement);
 }
 
 function copyToClipboard() {
