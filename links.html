@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Link Generator</title>
+  <link rel="stylesheet" href="genstyles.css">
+</head>
+<body>
+
+
+<h2>Text Link Code Generator</h2>
+
+<nav>
+    <ul>
+        <li style="color: #45a049; font-weight: 700;">Generate:</li>
+        <li><a href="index.html">Banners</a></li>
+        <li><a href="blue-links.html">Blue Links</a></li>
+        <li><a href="links.html">Text Links</a></li>
+    </ul>
+</nav>
+
+<form id="linkForm">
+  <label for="linkTarget">Link Target:</label>
+  <input type="text" id="linkTarget" required><br>
+
+  <label for="ctaBoldText">CTA Bold Text:</label>
+  <input type="text" id="ctaBoldText" required><br>
+
+  <label for="productText">Product Text:</label>
+  <input type="text" id="productText" required><br>
+
+  <button type="button" onclick="generateLink()">Generate</button>
+
+<p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
+ <button class="copy" onclick="copyToClipboard()">Copy</button>
+</form>
+
+<button type="button" class="example" onclick="showExample()">Show Example</button>
+
+
+
+<script>
+function replacePolishLetters(str) {
+  return str.replace(/[ąćęłńóśźż]/g, function(match) {
+    const polishToEnglishMap = {
+      'ą': 'a',
+      'ć': 'c',
+      'ę': 'e',
+      'ł': 'l',
+      'ń': 'n',
+      'ó': 'o',
+      'ś': 's',
+      'ź': 'z',
+      'ż': 'z'
+    };
+    return polishToEnglishMap[match] || match;
+  });
+}
+
+function generateLink() {
+  var linkTarget = document.getElementById("linkTarget").value;
+  var ctaBoldText = document.getElementById("ctaBoldText").value;
+  var productText = document.getElementById("productText").value;
+
+  var className = replacePolishLetters(`${ctaBoldText} ${productText}`.replace(/\s+/g, '-').toLowerCase());
+
+  var linkHTML = `<p><strong>${ctaBoldText}:</strong> <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></p>`;
+
+  document.getElementById("linkResult").innerText = linkHTML;
+}
+
+function copyToClipboard() {
+  var linkResult = document.getElementById("linkResult");
+  if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(linkResult);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+    alert("Text copied to clipboard!");
+  } else {
+    console.log("Failed to copy text to clipboard, please manually copy.");
+  }
+}
+
+function showExample() {
+  document.getElementById("linkTarget").value = "https://natural.pl/sklep/melatonina";
+  document.getElementById("ctaBoldText").value = "Sprawdź";
+  document.getElementById("productText").value = "Melatonina na sen w tabletkach";
+  
+}
+
+function clearAll() {
+  document.getElementById("linkTarget").value = "";
+  document.getElementById("ctaBoldText").value = "";
+  document.getElementById("productText").value = "";
+  document.getElementById("linkResult").innerText = "Fill in the fields and click \"Generate\" to see the link.";
+}
+
+
+
+</script>
+
+</body>
+</html>
