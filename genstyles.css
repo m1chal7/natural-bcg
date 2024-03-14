@@ -16,6 +16,9 @@ body {
 .blog-link-blue {
     color: #1578cb;
 }
+#linkPreview {
+    min-height: 25px;
+}
 .active {
     font-weight: 700;
 }
