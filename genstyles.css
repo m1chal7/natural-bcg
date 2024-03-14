@@ -16,6 +16,12 @@ body {
 .blog-link-blue {
     color: #1578cb;
 }
+.italic {
+    font-style: italic;
+}
+normal, regular {
+    font-weight: 500;
+}
 .active {
     font-weight: 700;
 }
