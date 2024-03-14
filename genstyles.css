@@ -19,7 +19,7 @@ body {
 .italic {
     font-style: italic;
 }
-normal, regular {
+.normal, .regular {
     font-weight: 500;
 }
 .active {
