@@ -65,7 +65,7 @@ function generateLink() {
 
   var className = replacePolishLetters(`${ctaBoldText} ${productText}`.replace(/\s+/g, '-').toLowerCase());
 
-  var linkHTML = `<p><strong>${ctaBoldText}:</strong> <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></p>`;
+  var linkHTML = `<p><strong>${ctaBoldText}: <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></strong></p>`;
 
   document.getElementById("linkResult").innerText = linkHTML;
 }
