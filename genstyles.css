@@ -9,7 +9,9 @@ body {
     height: 100vh;
   flex-direction: column;
   }
-
+.active {
+    font-weight: 700;
+}
   h2 {
     text-align: center;
     color: #333;
