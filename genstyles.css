@@ -143,3 +143,13 @@ background-color: #7c7b7b;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   }
+.attributes {
+display: flex;
+align-items: center;
+}
+.attributes input {
+width: fit-content; 
+}
+.attributes label {
+margin-right: 1rem;
+}
