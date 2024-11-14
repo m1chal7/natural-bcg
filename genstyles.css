@@ -146,6 +146,7 @@ background-color: #7c7b7b;
 .attributes {
 display: flex;
 align-items: center;
+margin-bottom: 1rem;
 }
 .attributes input {
 width: fit-content; 
