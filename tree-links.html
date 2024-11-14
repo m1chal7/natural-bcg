@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blue Link Generator</title>
+  <title>Tree Link Generator</title>
   <link rel="stylesheet" href="genstyles.css">
 </head>
 <body>
@@ -28,16 +28,27 @@
   <label for="ctaBoldText">Text:</label>
   <input type="text" id="ctaBoldText" required><br>
 
+  <!-- New Attribute Section -->
+  <label>Attribute:</label>
+  <div class="attributes">
+    <input type="radio" id="none" name="attribute" value="none" checked>
+    <label for="none">None</label><br>
+    <input type="radio" id="follow" name="attribute" value="follow">
+    <label for="follow">Follow</label><br>
+    <input type="radio" id="nofollow" name="attribute" value="nofollow">
+    <label for="nofollow">NoFollow</label>
+  </div>
+
   <button type="button" onclick="generateLink()">Generate</button>
 
-<p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
+  <p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
   <p>Preview: <div id="linkPreview">Fill in the fields and click "Generate" to see the link.</div></p>
- <button class="copy" onclick="copyToClipboard()">Copy</button>
+  <button class="copy" onclick="copyToClipboard()">Copy</button>
 </form>
 
+<button type="button" onclick="clearAll()">Clear All</button>
 <button type="button" class="example" onclick="showExample()">Show Example</button>
 </div>
-
 
 <script>
 function replacePolishLetters(str) {
@@ -61,10 +72,19 @@ function generateLink() {
   var linkTarget = document.getElementById("linkTarget").value;
   var ctaBoldText = document.getElementById("ctaBoldText").value;
 
-
   var className = replacePolishLetters(`${ctaBoldText}`.replace(/\s+/g, '-').toLowerCase());
 
-  var linkHTML = `<li><a class="blog-link-tree ${className}" href="${linkTarget}"><strong>${ctaBoldText}</strong></a></li>`;
+  // Get the selected attribute
+  var attribute = document.querySelector('input[name="attribute"]:checked').value;
+  var relAttribute = "";
+
+  if (attribute === "follow") {
+    relAttribute = 'rel="follow"';
+  } else if (attribute === "nofollow") {
+    relAttribute = 'rel="nofollow"';
+  }
+
+  var linkHTML = `<li><a class="blog-link-tree ${className}" href="${linkTarget}" ${relAttribute}><strong>${ctaBoldText}</strong></a></li>`;
 
   document.getElementById("linkResult").innerText = linkHTML;
 
@@ -98,19 +118,16 @@ function copyToClipboard() {
 function showExample() {
   document.getElementById("linkTarget").value = "https://natural.pl/sklep/melatonina";
   document.getElementById("ctaBoldText").value = "Melatonina na sen w tabletkach";
-
-  
+  document.getElementById("none").checked = true;
 }
 
 function clearAll() {
   document.getElementById("linkTarget").value = "";
   document.getElementById("ctaBoldText").value = "";
-
+  document.getElementById("none").checked = true;
   document.getElementById("linkResult").innerText = "Fill in the fields and click \"Generate\" to see the link.";
+  document.getElementById("linkPreview").innerHTML = "Fill in the fields and click \"Generate\" to see the link.";
 }
-
-
-
 </script>
 
 </body>
