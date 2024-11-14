@@ -31,21 +31,30 @@
   <label for="mobileImageSrc">Mobile Image Source:</label>
   <input type="text" id="mobileImageSrc" required><br>
 
-  
-
   <label for="creativeName">Creative Name:</label>
   <input type="text" id="creativeName" required><br>
 
   <label for="altText">Alt Text:</label>
   <input type="text" id="altText" required><br>
 
+  <!-- New Attribute Section -->
+  <label>Attribute:</label>
+<div class="attributes">
+  <input type="radio" id="none" name="attribute" value="none" checked>
+  <label for="none">None</label><br>
+  <input type="radio" id="follow" name="attribute" value="follow">
+  <label for="follow">Follow</label><br>
+  <input type="radio" id="nofollow" name="attribute" value="nofollow">
+  <label for="nofollow">NoFollow</label>
+</div>
+
   <button type="button" onclick="generateShortCode()">Generate</button>
 
-<p id="shortCodeResult">Fill in the fields and click "Generate" to see the code.</p>
- <button class="copy" onclick="copyToClipboard()">Copy</button>
+  <p id="shortCodeResult">Fill in the fields and click "Generate" to see the code.</p>
+  <button class="copy" onclick="copyToClipboard()">Copy</button>
 </form>
- <button type="button" onclick="clearAll()" style="display:none">Clear All</button>
-  <button type="button" class="example" onclick="showExample()">Show Example</button>
+<button type="button" onclick="clearAll()" style="display:none">Clear All</button>
+<button type="button" class="example" onclick="showExample()">Show Example</button>
 </div>
 
 <script>
@@ -74,9 +83,17 @@ function generateShortCode() {
   var creativeName = replacePolishLetters(creativeNameInput.replace(/\s+/g, '-').toLowerCase());
   var altText = document.getElementById("altText").value;
 
+  // Get the selected attribute
+  var attribute = document.querySelector('input[name="attribute"]:checked').value;
+  var relAttribute = "";
 
+  if (attribute === "follow") {
+    relAttribute = 'rel="follow"';
+  } else if (attribute === "nofollow") {
+    relAttribute = 'rel="nofollow"';
+  }
 
-  var shortCode = `<a href="${linkTarget}" class="np-bbc b-${creativeName}">
+  var shortCode = `<a href="${linkTarget}" class="np-bbc b-${creativeName}" ${relAttribute}>
     <img src="${desktopImageSrc}" class="blog-banner-desktop b-${creativeName}" alt="${altText}">
     <img src="${mobileImageSrc}" class="blog-banner-mobile b-${creativeName}" alt="${altText}">
   </a>`;
@@ -86,44 +103,46 @@ function generateShortCode() {
   document.getElementById("shortCodeResult").innerText = shortCode;
 }
 
-     function copyToClipboard() {
-      var shortCodeResult = document.getElementById("shortCodeResult");
-      
-      // Create a range and select the text
-      var range = document.createRange();
-      range.selectNode(shortCodeResult);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
+function copyToClipboard() {
+  var shortCodeResult = document.getElementById("shortCodeResult");
 
-      // Try to copy the selected text to the clipboard
-      try {
-        document.execCommand('copy');
-        alert('Text copied to clipboard!');
-      } catch (err) {
-        console.error('Unable to copy text to clipboard', err);
-        alert('Failed to copy text to clipboard');
-      }
+  // Create a range and select the text
+  var range = document.createRange();
+  range.selectNode(shortCodeResult);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
 
-      // Clear the selection
-      window.getSelection().removeAllRanges();
-    }
+  // Try to copy the selected text to the clipboard
+  try {
+    document.execCommand('copy');
+    alert('Text copied to clipboard!');
+  } catch (err) {
+    console.error('Unable to copy text to clipboard', err);
+    alert('Failed to copy text to clipboard');
+  }
 
-    function showExample() {
-      document.getElementById("desktopImageSrc").value = "https://natural.pl/wp-content/uploads/2023/12/Movisan_banner_blog_boswelia_950x200.jpg";
-      document.getElementById("mobileImageSrc").value = "https://natural.pl/wp-content/uploads/2023/12/Movisan_banner_blog_boswelia_600x600.jpg";
-      document.getElementById("linkTarget").value = "https://natural.pl/sklep/movisan-collagen-ii/";
-      document.getElementById("creativeName").value = "Movisan Boswellia orange";
-      document.getElementById("altText").value = "Movisan - kolagen na stawy";
-    }
+  // Clear the selection
+  window.getSelection().removeAllRanges();
+}
 
-    function clearAll() {
-      document.getElementById("desktopImageSrc").value = "";
-      document.getElementById("mobileImageSrc").value = "";
-      document.getElementById("linkTarget").value = "";
-      document.getElementById("creativeName").value = "";
-      document.getElementById("altText").value = "";
-      document.getElementById("shortCodeResult").innerText = "";
-    }
+function showExample() {
+  document.getElementById("desktopImageSrc").value = "https://natural.pl/wp-content/uploads/2023/12/Movisan_banner_blog_boswelia_950x200.jpg";
+  document.getElementById("mobileImageSrc").value = "https://natural.pl/wp-content/uploads/2023/12/Movisan_banner_blog_boswelia_600x600.jpg";
+  document.getElementById("linkTarget").value = "https://natural.pl/sklep/movisan-collagen-ii/";
+  document.getElementById("creativeName").value = "Movisan Boswellia orange";
+  document.getElementById("altText").value = "Movisan - kolagen na stawy";
+  document.getElementById("none").checked = true;
+}
+
+function clearAll() {
+  document.getElementById("desktopImageSrc").value = "";
+  document.getElementById("mobileImageSrc").value = "";
+  document.getElementById("linkTarget").value = "";
+  document.getElementById("creativeName").value = "";
+  document.getElementById("altText").value = "";
+  document.getElementById("none").checked = true;
+  document.getElementById("shortCodeResult").innerText = "";
+}
 
 </script>
 
