@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blue Link Generator</title>
+  <title>Text Link Generator</title>
   <link rel="stylesheet" href="genstyles.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
         <li style="color: #45a049; font-weight: 700;">Generate:</li>
         <li><a href="index.html">Banners</a></li>
         <li><a href="blue-links.html">Blue Links</a></li>
-       <li><a href="tree-links.html">Tree Links</a></li>
+        <li><a href="tree-links.html">Tree Links</a></li>
         <li><a class="active" href="links.html">Text Links</a></li>
     </ul>
 </nav>
@@ -31,16 +31,27 @@
   <label for="productText">Product Text:</label>
   <input type="text" id="productText" required><br>
 
+  <!-- New Attribute Section -->
+  <label>Attribute:</label>
+  <div class="attributes">
+    <input type="radio" id="none" name="attribute" value="none" checked>
+    <label for="none">None</label><br>
+    <input type="radio" id="follow" name="attribute" value="follow">
+    <label for="follow">Follow</label><br>
+    <input type="radio" id="nofollow" name="attribute" value="nofollow">
+    <label for="nofollow">NoFollow</label>
+  </div>
+
   <button type="button" onclick="generateLink()">Generate</button>
 
-<p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
+  <p id="linkResult">Fill in the fields and click "Generate" to see the link.</p>
   <p>Preview: <div id="linkPreview">Fill in the fields and click "Generate" to see the link.</div></p>
- <button class="copy" onclick="copyToClipboard()">Copy</button>
+  <button class="copy" onclick="copyToClipboard()">Copy</button>
 </form>
 
+<button type="button" onclick="clearAll()">Clear All</button>
 <button type="button" class="example" onclick="showExample()">Show Example</button>
 </div>
-
 
 <script>
 function replacePolishLetters(str) {
@@ -67,7 +78,17 @@ function generateLink() {
 
   var className = replacePolishLetters(`${ctaBoldText} ${productText}`.replace(/\s+/g, '-').toLowerCase());
 
-  var linkHTML = `<p><strong>${ctaBoldText}: <a class="blog-link-text ${className}" href="${linkTarget}">${productText}</a></strong></p>`;
+  // Get the selected attribute
+  var attribute = document.querySelector('input[name="attribute"]:checked').value;
+  var relAttribute = "";
+
+  if (attribute === "follow") {
+    relAttribute = 'rel="follow"';
+  } else if (attribute === "nofollow") {
+    relAttribute = 'rel="nofollow"';
+  }
+
+  var linkHTML = `<p><strong>${ctaBoldText}: <a class="blog-link-text ${className}" href="${linkTarget}" ${relAttribute}>${productText}</a></strong></p>`;
 
   document.getElementById("linkResult").innerText = linkHTML;
 
@@ -102,18 +123,17 @@ function showExample() {
   document.getElementById("linkTarget").value = "https://natural.pl/sklep/melatonina";
   document.getElementById("ctaBoldText").value = "Sprawdź";
   document.getElementById("productText").value = "Melatonina na sen w tabletkach";
-  
+  document.getElementById("none").checked = true;
 }
 
 function clearAll() {
   document.getElementById("linkTarget").value = "";
   document.getElementById("ctaBoldText").value = "";
   document.getElementById("productText").value = "";
+  document.getElementById("none").checked = true;
   document.getElementById("linkResult").innerText = "Fill in the fields and click \"Generate\" to see the link.";
+  document.getElementById("linkPreview").innerHTML = "Fill in the fields and click \"Generate\" to see the link.";
 }
-
-
-
 </script>
 
 </body>
